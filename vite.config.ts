@@ -25,6 +25,12 @@ export default defineConfig({
       "@pages": pagesDir,
     },
   },
+  server: {
+    port: 7852,
+  },
+  preview: {
+    port: 7852,
+  },
   plugins: [
     react(),
     makeManifest(manifest),
