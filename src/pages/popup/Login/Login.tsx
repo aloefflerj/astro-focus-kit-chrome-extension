@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import star from '@src/assets/img/star.svg';
-// import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { Option } from '@src/components/Card/Option';
-// import star from '../assets/img/star.svg';
 import { Card } from '@src/components/Card/Card';
 import styles from './Login.module.scss';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //   const auth = useAuth();
+  const auth = useAuth();
   //   const navigate = useNavigate();
 
   const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,15 +20,12 @@ export const Login = () => {
   };
 
   const handleLogin = async () => {
-    // try {
-    //   await auth.authenticate(email, password);
-    //   navigate('/tasks');
-    // } catch (error) {
-    //   alert(
-    //     'Invalid email or password, try: eve.holt@reqres.in and pass: cityslicka'
-    //   );
-    // }
-    alert('ok');
+    try {
+      await auth.authenticate(email, password);
+      alert('login ok');
+    } catch (error) {
+      alert('Invalid login');
+    }
   };
 
   return (
