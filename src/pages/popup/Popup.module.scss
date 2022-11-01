@@ -1,0 +1,53 @@
+@import '../../assets/style/variables.css';
+
+.popup {
+    background-color: var(--coral-light);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:global {
+    @import './common/css/variables.css';
+
+    #app-container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    body {
+        height: 100vh;
+        margin: 0;
+        background-color: var(--coral-light);
+        font-family: var(--default-font-medium);
+        font-weight: normal;
+        font-style: normal;
+        color: var(--black-medium);
+    }
+
+    ul,
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    input[type='text'], input[type='password'] {
+        border-radius: 4px;
+        border: 2px solid #464651;
+        padding: 8px 10px;
+        font-family: 'Averia Libre, cursive';
+        margin-top: 8px;
+        color: #464651;
+        box-shadow: 0px -3px #464651;
+        background-color: #f0c8ac;
+        font-size: 18px;
+    }
+}
