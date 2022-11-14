@@ -21,6 +21,7 @@ export const useLocalStorage = (
   const setValue = (newValue: any): void => {
     try {
       window.localStorage.setItem(keyName, JSON.stringify(newValue));
+      chrome.storage.sync.set({ user: JSON.stringify(newValue) });
       // eslint-disable-next-line no-empty
     } catch (error) {}
     setStoredValue(newValue);

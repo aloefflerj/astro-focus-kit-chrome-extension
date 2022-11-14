@@ -22,9 +22,11 @@ const manifest: chrome.runtime.ManifestV3 = {
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
       js: ['src/pages/content/index.js'],
       css: ['assets/css/contentStyle.chunk.css'],
+      run_at: 'document_start',
     },
   ],
   devtools_page: 'src/pages/devtools/index.html',
+  permissions: ['storage'],
   web_accessible_resources: [
     {
       resources: [
