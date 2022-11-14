@@ -2,7 +2,7 @@ import { EnvironmentConfig } from '@src/config/environmentConfig';
 
 const landingPage = EnvironmentConfig.mainClientApiBasePath;
 
-function handleLocalStorage() {
+function handleLocalStorage(): void {
   const user =
     localStorage.getItem('user') !== 'undefined'
       ? localStorage.getItem('user')
@@ -11,10 +11,13 @@ function handleLocalStorage() {
     chrome.storage.sync.get(['user'], function (result) {
       localStorage.setItem(
         'user',
-        result.user !== undefined ? result.user : null
+        result.user !== undefined ? JSON.stringify(result.user) : null
       );
     });
+    return;
   }
+
+  chrome.storage.sync.set({ user: JSON.parse(user) });
 }
 
 (async () => {
