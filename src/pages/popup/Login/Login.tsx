@@ -22,7 +22,6 @@ export const Login = () => {
   const handleLogin = async () => {
     try {
       await auth.authenticate(email, password);
-      alert('login ok');
     } catch (error) {
       alert('Invalid login');
     }
