@@ -7,11 +7,13 @@ import { Option } from '@src/components/Card/Option';
 import { useTasksApi } from '@src/services/tasks/useTasksApi';
 import { useEffect, useState } from 'react';
 import style from './Home.module.scss';
+import { useAuth } from '@src/hooks/useAuth';
 
 export function Home(): JSX.Element {
   const { getTasks } = useTasksApi();
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [tasksCompletionPercentage, setTasksCompletionPercentage] = useState(0);
+  const auth = useAuth();
 
   useEffect(() => {
     calcCompletionPercentage(tasks);
@@ -52,6 +54,11 @@ export function Home(): JSX.Element {
     setTasksCompletionPercentage(result.toFixed(2) * 100);
   };
 
+  const handleLogout = async () => {
+    auth.logout();
+    location.reload();
+  };
+
   return isFetchingTasks ? (
     <p>Fetching...</p>
   ) : (
@@ -87,7 +94,7 @@ export function Home(): JSX.Element {
       <button>
         <Option type="small" title="TASKS" />
       </button>
-      <button>
+      <button onClick={handleLogout}>
         <Option type="small" title="LOGOUT" />
       </button>
     </main>
