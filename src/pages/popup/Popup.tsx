@@ -12,7 +12,7 @@ const Popup = () => {
   useEffect(() => {
     chrome.storage.sync.get(['user'], function (result) {
       const user = result.user !== undefined ? result.user : null;
-      if (user) localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
       checksJWT();
     });
   });

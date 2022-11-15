@@ -1,13 +1,11 @@
 import { EnvironmentConfig } from '@src/config/environmentConfig';
-import { handleLocalStorage } from '../storage/index';
+import { urlChangeObserver } from '../urlChangeObserver/urlChangeObserver';
 
-const landingPage = EnvironmentConfig.mainClientApiBasePath;
+const basePath = EnvironmentConfig.mainClientApiBasePath;
 
 (async () => {
-  if (window.location.href.includes(landingPage)) {
-    handleLocalStorage();
-  }
+  urlChangeObserver();
   if (window.location.href.includes('instagram.com')) {
-    location.replace(`${landingPage}/tasks`);
+    location.replace(`${basePath}/tasks`);
   }
 })();
