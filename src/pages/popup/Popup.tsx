@@ -1,8 +1,11 @@
+import { queryClient } from '@src/common/utils/queryClient';
 import { ProtectedLayout } from '@src/components/Layouts/ProtectedLayout';
 import { AuthProvider } from '@src/contexts/AuthProvider';
 import { checksJWT } from '@src/services/jwt';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { Login } from './Login/Login';
+import { Home } from './pages/Home/Home';
+import { Login } from './pages/Login/Login';
 import style from './Popup.module.scss';
 
 const Popup = () => {
@@ -15,13 +18,15 @@ const Popup = () => {
   });
 
   return (
-    <AuthProvider>
-      <div className={style.popup}>
-        <ProtectedLayout redirect={<Login />}>
-          <p>Protected Layout</p>
-        </ProtectedLayout>
-      </div>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <div className={style.popup}>
+          <ProtectedLayout redirect={<Login />}>
+            <Home />
+          </ProtectedLayout>
+        </div>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 

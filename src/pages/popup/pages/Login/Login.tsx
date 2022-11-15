@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import star from '@src/assets/img/star.svg';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../../hooks/useAuth';
 import { Option } from '@src/components/Card/Option';
 import { Card } from '@src/components/Card/Card';
 import styles from './Login.module.scss';
