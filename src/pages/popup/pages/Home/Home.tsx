@@ -56,25 +56,34 @@ export function Home(): JSX.Element {
     <p>Fetching...</p>
   ) : (
     <main className={style.home}>
-      <h2>Daily Tasks</h2>
-      <p>
-        Finished:
-        {getFinishedTasksQty(tasks)}
-      </p>
-      <p>
-        Unfinished:
-        {getUnfinishedTasksQty(tasks)}
-      </p>
-      <ProgressBar
-        completed={tasksCompletionPercentage}
-        className={style.progressBarWrapper}
-        barContainerClassName={style.progressBarContainer}
-        labelClassName={style.progressBarLabel}
-        bgColor="#464651"
-        labelAlignment="outside"
-        animateOnRender={true}
-        transitionDuration="0.4s"
-      />
+      {tasksCompletionPercentage === 100 ? (
+        <>
+          <h2>Go</h2>
+          <h2>Procastinate!</h2>
+        </>
+      ) : (
+        <>
+          <h2>Daily Tasks</h2>
+          <p>
+            Finished:
+            {getFinishedTasksQty(tasks)}
+          </p>
+          <p>
+            Unfinished:
+            {getUnfinishedTasksQty(tasks)}
+          </p>
+          <ProgressBar
+            completed={tasksCompletionPercentage}
+            className={style.progressBarWrapper}
+            barContainerClassName={style.progressBarContainer}
+            labelClassName={style.progressBarLabel}
+            bgColor="#464651"
+            labelAlignment="outside"
+            animateOnRender={true}
+            transitionDuration="0.4s"
+          />
+        </>
+      )}
       <button>
         <Option type="small" title="TASKS" />
       </button>
