@@ -1,4 +1,5 @@
 import { EnvironmentConfig } from '@src/config/environmentConfig';
+import { checksJWT } from '@src/services/jwt';
 
 const landingPage = EnvironmentConfig.mainClientApiBasePath;
 
@@ -7,12 +8,14 @@ function handleLocalStorage(): void {
     localStorage.getItem('user') !== 'undefined'
       ? localStorage.getItem('user')
       : null;
+
   if (JSON.parse(user) === null) {
     chrome.storage.sync.get(['user'], function (result) {
       localStorage.setItem(
         'user',
         result.user !== undefined ? JSON.stringify(result.user) : null
       );
+      checksJWT();
     });
     return;
   }

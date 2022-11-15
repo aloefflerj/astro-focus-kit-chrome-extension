@@ -29,7 +29,6 @@ api.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       unsetUserLocalStorage();
-      // window.location.href = '/login';
       return;
     }
   }
