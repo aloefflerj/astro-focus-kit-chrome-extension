@@ -11,6 +11,13 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    chrome.storage.sync.get(['user'], function (result) {
+      localStorage.setItem(
+        'user',
+        result.user !== undefined ? JSON.stringify(result.user) : null
+      );
+    });
+
     const user = getUserLocalStorage();
 
     if (config.headers === undefined) return;

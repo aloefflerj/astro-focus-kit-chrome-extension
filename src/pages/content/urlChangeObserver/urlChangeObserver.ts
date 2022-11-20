@@ -1,6 +1,7 @@
 import { EnvironmentConfig } from '@src/config/environmentConfig';
 import { syncLocalStorage } from '@src/services/syncLocalStorage';
 import { logoutClickListener } from '../logoutClickListener/logoutClickListener';
+import { fetchBlockedSites } from '../services/blockedSites';
 import { handleLoginLocalStorage } from '../storage';
 
 export function urlChangeObserver(): void {
@@ -22,6 +23,15 @@ export function urlChangeObserver(): void {
         handleLoginLocalStorage(user);
         return;
       }
+
+      fetchBlockedSites().then((sites) => {
+        sites.forEach((site) => {
+          if (document.location.href.includes(site?.url)) {
+            location.replace(`${basePath}/tasks`);
+            return;
+          }
+        });
+      });
     });
 
     const config = {
