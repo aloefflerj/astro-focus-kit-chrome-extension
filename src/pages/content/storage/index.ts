@@ -1,15 +1,17 @@
 import { checksJWT } from '@src/services/jwt';
 
-export function handleLoginLocalStorage(user?: string): void {
+export async function handleLoginLocalStorage(user?: string): Promise<void> {
   if (JSON.parse(user) === null) {
-    chrome.storage.sync.get(['user'], function (result) {
-      localStorage.setItem(
-        'user',
-        result.user !== undefined ? JSON.stringify(result.user) : null
-      );
-      checksJWT();
-    });
-    return;
+    const userFromCromeStorage = await readFromChromeStorage('user');
+
+    localStorage.setItem(
+      'user',
+      userFromCromeStorage !== undefined
+        ? JSON.stringify(userFromCromeStorage)
+        : null
+    );
+
+    checksJWT();
   }
 
   if (JSON.parse(user)?.email)
@@ -21,3 +23,12 @@ export function handleLogoutLocalStorage(): void {
     localStorage.setItem('user', JSON.stringify(null));
   });
 }
+
+export const readFromChromeStorage = async (key: string) => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(['user'], function (result) {
+      if (result[key] === undefined) reject();
+      else resolve(result[key]);
+    });
+  });
+};

@@ -4,6 +4,7 @@ import {
   unsetUserLocalStorage,
 } from '../contexts/AuthProvider/utils';
 import { EnvironmentConfig } from '../config/environmentConfig';
+import { readFromChromeStorage } from './syncLocalStorage';
 
 export const api = axios.create({
   baseURL: EnvironmentConfig.mainServerApiBasePath,
@@ -13,7 +14,7 @@ api.interceptors.request.use(
   async (config) => {
     let user = null;
 
-    user = await readUserForApi('user');
+    user = await readFromChromeStorage('user');
 
     if (!user) user = getUserLocalStorage();
 
@@ -37,14 +38,5 @@ api.interceptors.response.use(
     }
   }
 );
-
-const readUserForApi = async (key: string) => {
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.get(['user'], function (result) {
-      if (result[key] === undefined) reject();
-      else resolve(result[key]);
-    });
-  });
-};
 
 //TODO: refresh x-access-token jwt token

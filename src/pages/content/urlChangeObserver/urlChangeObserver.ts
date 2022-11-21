@@ -12,7 +12,7 @@ export function urlChangeObserver(): void {
 
     const bodyList = document.querySelector('body');
 
-    const observer = new MutationObserver(function () {
+    const observer = new MutationObserver(async function () {
       logoutClickListener();
       if (document.location.href.includes(basePath)) {
         const user =
@@ -20,7 +20,7 @@ export function urlChangeObserver(): void {
             ? localStorage.getItem('user')
             : null;
 
-        handleLoginLocalStorage(user);
+        await handleLoginLocalStorage(user);
         return;
       }
 
