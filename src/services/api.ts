@@ -10,15 +10,12 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config) => {
-    chrome.storage.sync.get(['user'], function (result) {
-      localStorage.setItem(
-        'user',
-        result.user !== undefined ? JSON.stringify(result.user) : null
-      );
-    });
+  async (config) => {
+    let user = null;
 
-    const user = getUserLocalStorage();
+    user = await readUserForApi('user');
+
+    if (!user) user = getUserLocalStorage();
 
     if (config.headers === undefined) return;
 
@@ -40,5 +37,14 @@ api.interceptors.response.use(
     }
   }
 );
+
+const readUserForApi = async (key: string) => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(['user'], function (result) {
+      if (result[key] === undefined) reject();
+      else resolve(result[key]);
+    });
+  });
+};
 
 //TODO: refresh x-access-token jwt token
