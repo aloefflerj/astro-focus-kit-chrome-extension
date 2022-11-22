@@ -1,5 +1,6 @@
 import { EnvironmentConfig } from '@src/config/environmentConfig';
 import { syncLocalStorage } from '@src/services/syncLocalStorage';
+import { useBlocksApi } from '@src/services/tasks/useBlocksApi';
 import { logoutClickListener } from '../logoutClickListener/logoutClickListener';
 import { fetchBlockedSites } from '../services/blockedSites';
 import { handleLoginLocalStorage } from '../storage';
@@ -30,6 +31,9 @@ export function urlChangeObserver(): void {
             let domain = document.location.hostname;
             domain = domain.replace('www.', '');
             domain = domain.split('.')[0];
+
+            const { newBlock } = useBlocksApi();
+            newBlock(document.location.href);
 
             location.replace(`${basePath}/block/${domain}`);
             return;
