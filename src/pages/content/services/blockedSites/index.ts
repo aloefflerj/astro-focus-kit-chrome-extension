@@ -1,13 +1,13 @@
 import { api } from '@src/services/api';
 
-export interface IBlock {
+export interface ISite {
   _id?: string;
   url: string;
 }
 
-export const fetchBlockedSites = async (): Promise<IBlock[]> => {
+export const fetchBlockedSites = async (): Promise<ISite[]> => {
   try {
-    const response = await api.get('/blocks');
+    const response = await api.get('/sites');
     if (response) return response.data;
   } catch (error) {
     console.error(error.msg);

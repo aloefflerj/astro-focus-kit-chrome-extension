@@ -27,7 +27,11 @@ export function urlChangeObserver(): void {
       fetchBlockedSites().then((sites) => {
         sites.forEach((site) => {
           if (document.location.href.includes(site?.url)) {
-            location.replace(`${basePath}/tasks`);
+            let domain = document.location.hostname;
+            domain = domain.replace('www.', '');
+            domain = domain.split('.')[0];
+
+            location.replace(`${basePath}/block/${domain}`);
             return;
           }
         });
