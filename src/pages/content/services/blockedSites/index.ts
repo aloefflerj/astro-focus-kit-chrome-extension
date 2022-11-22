@@ -1,7 +1,7 @@
 import { api } from '@src/services/api';
 
 export interface ISite {
-  _id?: string;
+  id?: string;
   url: string;
 }
 
