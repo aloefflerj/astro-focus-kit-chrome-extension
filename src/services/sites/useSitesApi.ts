@@ -1,9 +1,5 @@
 import { api } from '@src/services/api';
-
-export interface ISite {
-  id?: string;
-  url: string;
-}
+import { ISite } from './useSites';
 
 const resource = '/sites';
 

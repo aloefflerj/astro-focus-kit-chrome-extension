@@ -1,11 +1,12 @@
 import { EnvironmentConfig } from '@src/config/environmentConfig';
 import { syncLocalStorage } from '@src/services/syncLocalStorage';
-import { useBlocksApi } from '@src/services/blocks/useBlocksApi';
 import { logoutClickListener } from '../logoutClickListener/logoutClickListener';
 import { handleLoginLocalStorage } from '../storage';
 import { useSitesApi } from '@src/services/sites/useSitesApi';
+import { useSites } from '@src/services/sites/useSites';
 
 const { fetchBlockedSites } = useSitesApi();
+const { handleBlockBySites } = useSites();
 
 export function urlChangeObserver(): void {
   const basePath = EnvironmentConfig.mainClientApiBasePath;
@@ -16,6 +17,7 @@ export function urlChangeObserver(): void {
     const bodyList = document.querySelector('body');
 
     const observer = new MutationObserver(async function () {
+      //login/logout
       logoutClickListener();
       if (document.location.href.includes(basePath)) {
         const user =
@@ -27,16 +29,9 @@ export function urlChangeObserver(): void {
         return;
       }
 
+      //blocks
       fetchBlockedSites().then((sites) => {
-        sites.forEach((site) => {
-          if (document.location.href.includes(site?.url)) {
-            const { newBlock } = useBlocksApi();
-            newBlock(site.id);
-
-            location.replace(`${basePath}/block/${site.id}`);
-            return;
-          }
-        });
+        handleBlockBySites(sites);
       });
     });
 

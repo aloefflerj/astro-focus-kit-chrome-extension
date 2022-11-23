@@ -11,4 +11,8 @@ export const useBlocksApi = () => ({
     });
     return response.data;
   },
+  fetchLatest: async () => {
+    const { data } = await api.get(`${resource}/last`);
+    return data;
+  },
 });
