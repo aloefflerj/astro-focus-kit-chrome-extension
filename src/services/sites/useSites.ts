@@ -8,7 +8,7 @@ export interface ISite {
   url: string;
 }
 
-const { fetchSessionStatus } = useSessionsApi();
+const { fetchSessionStatus, changeStatusToFocusing } = useSessionsApi();
 const { newBlock, fetchLatest } = useBlocksApi();
 const { hasPassedXMinutesSinceDate } = useTime();
 
@@ -19,7 +19,8 @@ export const useSites = () => ({
     const status = await fetchStatus();
 
     if (status !== 'focusing') {
-      setInterval(() => siteRedirection(sites), 1000);
+      const { blockDateTime } = await fetchLatestBlock();
+      setInterval(() => siteRedirection(sites, blockDateTime), 1000);
       return;
     }
 
@@ -27,17 +28,24 @@ export const useSites = () => ({
   },
 });
 
-function siteRedirection(sites: ISite[]) {
+function siteRedirection(sites: ISite[], blockDateTime = null) {
   sites.forEach(async (site) => {
     if (document.location.href.includes(site?.url)) {
-      const { blockDateTime } = await fetchLatestBlock();
+      if (blockDateTime === undefined) blockAndRedirect(site);
+      if (blockDateTime === null) blockAndRedirect(site);
+      // TODO: let the user config how many minutes procrastination session must last
       if (hasPassedXMinutesSinceDate(blockDateTime, 1)) {
-        await newBlock(site.id);
-        location.replace(`${basePath}/block/${site.id}`);
+        blockAndRedirect(site);
       }
     }
   });
 }
+
+const blockAndRedirect = async (site: ISite) => {
+  await newBlock(site.id);
+  changeStatusToFocusing();
+  location.replace(`${basePath}/block/${site.id}`);
+};
 
 const fetchStatus = async () => {
   const { status } = await fetchSessionStatus();
