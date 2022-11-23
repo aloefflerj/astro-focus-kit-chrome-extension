@@ -49,6 +49,10 @@ export function Home(): JSX.Element {
     }).length;
 
   const calcCompletionPercentage = (tasks: ITask[]): void => {
+    if (tasks.length === 0) {
+      setTasksCompletionPercentage(100);
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: any = getFinishedTasksQty(tasks) / tasks.length;
     setTasksCompletionPercentage(result.toFixed(2) * 100);
