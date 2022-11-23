@@ -32,6 +32,15 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (config) => config,
   (error) => {
+    if (error === undefined) {
+      return;
+    }
+
+    if (error.response === undefined) {
+      unsetUserLocalStorage();
+      return;
+    }
+
     if (error.response.status === 401) {
       unsetUserLocalStorage();
       return;
