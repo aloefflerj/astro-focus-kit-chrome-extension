@@ -1,5 +1,4 @@
 import { EnvironmentConfig } from '@src/config/environmentConfig';
-import moment from 'moment';
 import { useBlocksApi } from '../blocks/useBlocksApi';
 import { useSessionsApi } from '../sessions/useSessionsApi';
 import { useTime } from '../time/useTime';
@@ -33,7 +32,7 @@ function siteRedirection(sites: ISite[]) {
     if (document.location.href.includes(site?.url)) {
       const { blockDateTime } = await fetchLatestBlock();
       if (hasPassedXMinutesSinceDate(blockDateTime, 1)) {
-        newBlock(site.id);
+        await newBlock(site.id);
         location.replace(`${basePath}/block/${site.id}`);
       }
     }

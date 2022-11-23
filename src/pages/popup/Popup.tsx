@@ -7,6 +7,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Home } from './pages/Home/Home';
 import { Login } from './pages/Login/Login';
+import { Timer } from './pages/Timer/Timer';
 import style from './Popup.module.scss';
 
 const Popup = () => {
@@ -23,7 +24,7 @@ const Popup = () => {
       <AuthProvider>
         <div className={style.popup}>
           <ProtectedLayout redirect={<Login />}>
-            <FocusLayout redirect={<h1>timer</h1>}>
+            <FocusLayout redirect={<Timer />}>
               <Home />
             </FocusLayout>
           </ProtectedLayout>
