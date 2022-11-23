@@ -1,4 +1,5 @@
 import { queryClient } from '@src/common/utils/queryClient';
+import { FocusLayout } from '@src/components/Layouts/FocusLayout';
 import { ProtectedLayout } from '@src/components/Layouts/ProtectedLayout';
 import { AuthProvider } from '@src/contexts/AuthProvider';
 import { checksJWT } from '@src/services/jwt';
@@ -22,7 +23,9 @@ const Popup = () => {
       <AuthProvider>
         <div className={style.popup}>
           <ProtectedLayout redirect={<Login />}>
-            <Home />
+            <FocusLayout redirect={<h1>timer</h1>}>
+              <Home />
+            </FocusLayout>
           </ProtectedLayout>
         </div>
       </AuthProvider>

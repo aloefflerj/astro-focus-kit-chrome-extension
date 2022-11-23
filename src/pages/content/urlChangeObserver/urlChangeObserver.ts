@@ -1,6 +1,6 @@
 import { EnvironmentConfig } from '@src/config/environmentConfig';
 import { syncLocalStorage } from '@src/services/syncLocalStorage';
-import { useBlocksApi } from '@src/services/tasks/useBlocksApi';
+import { useBlocksApi } from '@src/services/blocks/useBlocksApi';
 import { logoutClickListener } from '../logoutClickListener/logoutClickListener';
 import { fetchBlockedSites } from '../services/blockedSites';
 import { handleLoginLocalStorage } from '../storage';
