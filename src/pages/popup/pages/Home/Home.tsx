@@ -8,8 +8,11 @@ import { useTasksApi } from '@src/services/tasks/useTasksApi';
 import { useEffect, useState } from 'react';
 import style from './Home.module.scss';
 import { useAuth } from '@src/hooks/useAuth';
+import { EnvironmentConfig } from '@src/config/environmentConfig';
 
 export function Home(): JSX.Element {
+  const basePath = EnvironmentConfig.mainClientApiBasePath;
+
   const { getTasks } = useTasksApi();
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [tasksCompletionPercentage, setTasksCompletionPercentage] = useState(0);
@@ -63,6 +66,10 @@ export function Home(): JSX.Element {
     location.reload();
   };
 
+  const redirectToTasks = async () => {
+    window.open(`${basePath}/tasks`, '_blank');
+  };
+
   return isFetchingTasks ? (
     <p>Fetching...</p>
   ) : (
@@ -95,7 +102,7 @@ export function Home(): JSX.Element {
           />
         </>
       )}
-      <button>
+      <button onClick={redirectToTasks}>
         <Option type="small" title="TASKS" />
       </button>
       <button onClick={handleLogout}>
