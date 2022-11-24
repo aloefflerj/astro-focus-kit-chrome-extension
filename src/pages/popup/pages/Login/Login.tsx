@@ -4,12 +4,13 @@ import { useAuth } from '../../../../hooks/useAuth';
 import { Option } from '@src/components/Card/Option';
 import { Card } from '@src/components/Card/Card';
 import styles from './Login.module.scss';
+import { useKeyDown } from '@src/hooks/useKeyDown';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const auth = useAuth();
-  //   const navigate = useNavigate();
+  const { handleOnEnter } = useKeyDown();
 
   const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -40,12 +41,14 @@ export const Login = () => {
           value={email}
           placeholder="Type your email"
           onChange={handleEmailInput}
+          onKeyDown={(e) => handleOnEnter(e, handleLogin)}
         />
         <input
           type="password"
           value={password}
           placeholder="Type your password"
           onChange={handlePasswordInput}
+          onKeyDown={(e) => handleOnEnter(e, handleLogin)}
         />
       </div>
       <button onClick={handleLogin} className={styles.loginButton}>
