@@ -4,10 +4,10 @@ export const useTime = () => ({
   hasPassedXMinutesSinceDate: (dateTime: string, minutes: number): boolean => {
     return moment().isAfter(moment(dateTime).add(minutes, 'minutes'));
   },
-  procrastinationExpiresIn: (
+  procrastinationExpiresIn: async (
     lastBlockTime: string,
     expiresInXMinutes: number
-  ): string => {
+  ): Promise<string> => {
     const duration = moment.duration(
       moment(lastBlockTime).add(expiresInXMinutes, 'minutes').diff(moment())
     );

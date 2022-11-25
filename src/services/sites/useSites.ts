@@ -13,6 +13,8 @@ const { newBlock, fetchLatest } = useBlocksApi();
 const { hasPassedXMinutesSinceDate } = useTime();
 
 const basePath = EnvironmentConfig.mainClientApiBasePath;
+const defaultTimerDuration =
+  EnvironmentConfig.defaultProcratinasionMinutesDuration;
 
 export const useSites = () => ({
   handleBlockBySites: async (sites: ISite[]): Promise<void> => {
@@ -34,7 +36,7 @@ function siteRedirection(sites: ISite[], blockDateTime = null) {
       if (blockDateTime === undefined) blockAndRedirect(site);
       if (blockDateTime === null) blockAndRedirect(site);
       // TODO: let the user config how many minutes procrastination session must last
-      if (hasPassedXMinutesSinceDate(blockDateTime, 1)) {
+      if (hasPassedXMinutesSinceDate(blockDateTime, defaultTimerDuration)) {
         blockAndRedirect(site);
       }
     }
