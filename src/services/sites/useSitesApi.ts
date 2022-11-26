@@ -1,7 +1,7 @@
 import { api } from '@src/services/api';
 import { ISite } from './useSites';
 
-const resource = '/sites';
+const resource = '/sites/block';
 
 export const useSitesApi = () => ({
   fetchBlockedSites: async (): Promise<ISite[]> => {
