@@ -1,3 +1,4 @@
+import { handleExtensionLoginLocalStorage } from '@src/services/storage/storage';
 import { useState } from 'react';
 
 export const useLocalStorage = (
@@ -20,8 +21,7 @@ export const useLocalStorage = (
 
   const setValue = (newValue: any): void => {
     try {
-      window.localStorage.setItem(keyName, JSON.stringify(newValue));
-      chrome.storage.sync.set({ user: newValue });
+      handleExtensionLoginLocalStorage(keyName, newValue);
       // eslint-disable-next-line no-empty
     } catch (error) {}
     setStoredValue(newValue);

@@ -2,7 +2,7 @@ import { queryClient } from '@src/common/utils/queryClient';
 import { FocusLayout } from '@src/components/Layouts/FocusLayout';
 import { ProtectedLayout } from '@src/components/Layouts/ProtectedLayout';
 import { AuthProvider } from '@src/contexts/AuthProvider';
-import { checksJWT } from '@src/services/jwt';
+import { syncLocalStorage } from '@src/services/storage/storage';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Home } from './pages/Home/Home';
@@ -12,11 +12,7 @@ import style from './Popup.module.scss';
 
 const Popup = () => {
   useEffect(() => {
-    chrome.storage.sync.get(['user'], function (result) {
-      const user = result.user !== undefined ? result.user : null;
-      localStorage.setItem('user', JSON.stringify(user));
-      checksJWT();
-    });
+    syncLocalStorage();
   });
 
   return (

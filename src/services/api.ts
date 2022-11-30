@@ -4,7 +4,7 @@ import {
   unsetUserLocalStorage,
 } from '../contexts/AuthProvider/utils';
 import { EnvironmentConfig } from '../config/environmentConfig';
-import { readFromChromeStorage } from './syncLocalStorage';
+import { readFromChromeStorage } from './storage/storage';
 
 export const api = axios.create({
   baseURL: EnvironmentConfig.mainServerApiBasePath,
@@ -14,9 +14,10 @@ api.interceptors.request.use(
   async (config) => {
     let user = null;
 
-    user = await readFromChromeStorage('user');
+    // user = await readFromChromeStorage('user');
 
     if (!user) user = getUserLocalStorage();
+    console.log(user);
 
     if (config.headers === undefined) return;
 

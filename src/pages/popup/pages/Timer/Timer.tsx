@@ -26,7 +26,7 @@ export function Timer() {
       blockDateTime,
       defaultTimerDuration
     );
-    if (hasPassedXMinutesSinceDate(blockDateTime, defaultTimerDuration)) {
+    if (timer.includes('-')) {
       clearInterval(interval);
       setTimer('00:00:00');
       location.reload();
