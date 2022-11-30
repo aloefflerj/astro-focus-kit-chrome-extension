@@ -5,8 +5,10 @@ import { Option } from '@src/components/Card/Option';
 import { Card } from '@src/components/Card/Card';
 import styles from './Login.module.scss';
 import { useKeyDown } from '@src/hooks/useKeyDown';
+import { EnvironmentConfig } from '@src/config/environmentConfig';
 
 export const Login = () => {
+  const basePath = EnvironmentConfig.mainClientApiBasePath;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const auth = useAuth();
@@ -26,6 +28,17 @@ export const Login = () => {
     } catch (error) {
       alert('Invalid login');
     }
+    chrome.tabs.query({ url: `${basePath}/*` }, function (tabs) {
+      tabs.forEach((tab) => {
+        chrome.tabs.remove(tab.id);
+      });
+    });
+    chrome.tabs.create({ url: basePath });
+    chrome.tabs.query({ url: `${basePath}/*` }, function (tabs) {
+      tabs.forEach((tab) => {
+        chrome.tabs.reload(tab.id);
+      });
+    });
   };
 
   return (

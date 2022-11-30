@@ -63,6 +63,11 @@ export function Home(): JSX.Element {
 
   const handleLogout = async () => {
     auth.logout();
+    chrome.tabs.query({ url: `${basePath}/*` }, function (tabs) {
+      tabs.forEach((tab) => {
+        chrome.tabs.reload(tab.id);
+      });
+    });
     location.reload();
   };
 

@@ -26,7 +26,7 @@ const manifest: chrome.runtime.ManifestV3 = {
     },
   ],
   devtools_page: 'src/pages/devtools/index.html',
-  permissions: ['storage'],
+  permissions: ['storage', 'tabs'],
   web_accessible_resources: [
     {
       resources: [

@@ -1,35 +1,41 @@
-import { EnvironmentConfig } from '@src/config/environmentConfig';
 import { useBlocksApi } from '@src/services/blocks/useBlocksApi';
+import { useSessionsApi } from '@src/services/sessions/useSessionsApi';
 import { useTime } from '@src/services/time/useTime';
-import { useEffect, useState } from 'react';
+import { useTimersApi } from '@src/services/timers/useTimersApi';
+import { useState } from 'react';
 import style from './Timer.module.scss';
 
 export function Timer() {
-  const defaultTimerDuration =
-    EnvironmentConfig.defaultProcratinasionMinutesDuration;
-  const { procrastinationExpiresIn, hasPassedXMinutesSinceDate } = useTime();
+  const { procrastinationExpiresIn } = useTime();
   const { fetchLatest } = useBlocksApi();
+  const { changeStatusToFocusing } = useSessionsApi();
+  const { fetchTimerDuration } = useTimersApi();
+  let blockDateTimeValue = '0';
 
-  const [blockDateTime, setBlockDateTime] = useState<string>('');
   const [timer, setTimer] = useState('00:00:00');
 
   let interval = null;
 
+  fetchLatest().then(({ blockDateTime }) => {
+    blockDateTimeValue = blockDateTime;
+  });
+
   interval = setInterval(async () => await updateProcrastinationTimer(), 1000);
 
-  useEffect(() => {
-    fetchLatest().then(({ blockDateTime }) => setBlockDateTime(blockDateTime));
-  }, ['latestBlock']);
-
   const updateProcrastinationTimer = async () => {
+    const response = await fetchTimerDuration();
+    const timeDuration = response.time;
+
     const timeToExpire = await procrastinationExpiresIn(
-      blockDateTime,
-      defaultTimerDuration
+      blockDateTimeValue,
+      timeDuration
     );
-    if (hasPassedXMinutesSinceDate(blockDateTime, defaultTimerDuration)) {
+    if (timer.includes('-')) {
       clearInterval(interval);
       setTimer('00:00:00');
-      location.reload();
+      changeStatusToFocusing().then(() => {
+        location.reload();
+      });
     }
     setTimer(timeToExpire);
   };
